@@ -1,16 +1,23 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Apr 13 15:22:08 2017
+
+@author: kevinhong
+"""
+
 from scipy.stats.stats import pearsonr
 import math
 import numpy as np
 import random
 import matplotlib.pyplot as plt
 group_size=300
-generation=100
+generation=50
 beta=0.3#strength of genetic influence in gene_cul_type, can be thought of as the heritability of 
 #educational attainment
 beta_1=0.15 #coefficient in the genetic/cultural interaction in determining the phenotype
 phi=1 #degree of genetic reproductive skew
 phi_1=1 #degree of cultural reproductive skew
-phi_1_shock=3
+phi_1_shock=1
 gamma_cul=0.2 #relative contribution of geno_cultural type in genetic fitness
 gamma_cul_shock=0.8
 gen_shock=20
@@ -127,6 +134,10 @@ def geno_cul_type_shock(genotypic_value,pop,generation):
     
     return ((genotypic_value*beta)+(1-beta)*(pop[cul_model_index][1])+beta_1*genotypic_value*pop[cul_model_index][1])  *  (beta_gen**generation)
 
+
+cum_ave_geno=[]
+cum_ave_pheno=[]
+
 ave_geno=[]
 ave_pheno=[]
 for i in range(repeat):
@@ -215,5 +226,19 @@ for i in range(repeat):
     plt.ylim(0,5)
     ave_geno.append(pop_mean(pop,0))
     ave_pheno.append(pop_mean(pop,1))
+    cum_ave_geno.append(time_serie_geno)
+    cum_ave_pheno.append(time_serie_pheno)
 print "average_geno=", sum(ave_geno)/repeat
 print "average_pheno=", sum(ave_pheno)/repeat
+
+print cum_ave_geno
+print cum_ave_pheno
+
+ave_ave_geno=[]
+ave_ave_pheno=[]
+for i in range(generation):
+    ave_ave_geno.append(pop_mean(cum_ave_geno,i))
+    ave_ave_pheno.append(pop_mean(cum_ave_pheno,i))
+plt.plot(range(1,generation+1),ave_ave_geno, "r")
+plt.plot(range(1,generation+1),ave_ave_pheno, "b")
+plt.ylim(0,5)
