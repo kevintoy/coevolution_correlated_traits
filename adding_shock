@@ -221,6 +221,7 @@ for i in range(repeat):
         print round(pop_mean(pop,0),4), round(pop_mean(pop,1),4)
         time_serie_geno.append(pop_mean(pop,0))
         time_serie_pheno.append(pop_mean(pop,1))
+    plt.figure(0)
     plt.plot(range(1,generation+1),time_serie_geno,"r")
     plt.plot(range(1,generation+1),time_serie_pheno,"b")
     plt.ylim(0,5)
@@ -239,6 +240,7 @@ ave_ave_pheno=[]
 for i in range(generation):
     ave_ave_geno.append(pop_mean(cum_ave_geno,i))
     ave_ave_pheno.append(pop_mean(cum_ave_pheno,i))
+plt.figure(1)
 plt.plot(range(1,generation+1),ave_ave_geno, "r")
 plt.plot(range(1,generation+1),ave_ave_pheno, "b")
 plt.ylim(0,5)
